@@ -81,46 +81,18 @@
 
       // Functions to determine edges of objects
       function hitsTopEdge(object) {
-        if (object.y > 0)
-        {
-          return false;
-        }
-        else
-        {
-          return true;
-        }
+        return object.y <= 0;
       }
 
       function hitsBottomEdge(object) {
-        if ((object.y + object.height) >= CANVAS_HEIGHT)
-        {
-          return true;
-        }
-        else
-        {
-          return false;
-        }
+        return (object.y + object.height) >= CANVAS_HEIGHT;
       }
 
       function hitsLeftEdge(object) {
-        if (object.x > 0)
-        {
-          return false;
-        }
-        else
-        {
-          return true;
-        }
+        return object.x <= 0;
       }
       function hitsRightEdge(object) {
-        if ((object.x + object.width) >= CANVAS_WIDTH)
-        {
-          return true;
-        }
-        else
-        {
-          return false;
-        }
+        (object.x + object.width) >= CANVAS_WIDTH;
       }
       //User Input Listeners
 
@@ -151,7 +123,7 @@
       setInterval(function() {
         update();
         draw();
-      }, 1000/FPS);
+      }, 1000 / FPS);
 
     </script>
   </body>
