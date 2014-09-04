@@ -67,14 +67,15 @@
         }
       }
 
-        $(document).keydown( function(e) {
-          if (e.which == 38) {
-            paddle.y -= 10;
-          }
-          if (e.which == 40) {
-            paddle.y += 10;
-          }
-        })
+      $(document).keydown( function(e) {
+        e.preventDefault();
+        if (e.which == 38) {
+          paddle.y -= 10;
+        }
+        if (e.which == 40) {
+          paddle.y += 10;
+        }
+      })
 
       function update() {
         move(ball);
