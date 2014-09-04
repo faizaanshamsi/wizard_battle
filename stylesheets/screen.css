@@ -4,5 +4,8 @@ body {
   font-size: 10pt;
 }
 .gameboard {
-  padding-left: 50px;
+  padding-left: 20%;
+}
+canvas {
+  border: 2px solid black;
 }

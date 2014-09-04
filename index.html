@@ -12,23 +12,28 @@
   </head>
   <body>
     <div class="gameboard">
-
+      <h1>Space Demo</h1>
     </div>
-    <h1>Space Demo</h1>
     <script type='text/javascript'>
+
+      //CANVAS
+
       var CANVAS_WIDTH = 480;
       var CANVAS_HEIGHT = 320;
 
       var canvasElement = $("<canvas width='" + CANVAS_WIDTH +
                             "' height='" + CANVAS_HEIGHT + "'></canvas>");
       var canvas = canvasElement.get(0).getContext("2d");
-      canvasElement.appendTo('body');
-      canvas.fillStyle = "#000"; // Set color to black
+      canvasElement.appendTo('.gameboard');
+      canvas.fillStyle = "#9ea7b8"; // Set color to black
 
+      // Starting Conditions
 
       var FPS = 30;
       var xVelocity = 3;
       var yVelocity = 4;
+
+      // Game objects
 
       var paddle = {
         color: '#000',
@@ -54,31 +59,83 @@
         }
       }
 
+      // Functions to manipulate objects
+
       function move(ball) {
         ball.x += xVelocity;
         ball.y += yVelocity;
       }
 
+      //Collision functions
+
       function collideWithWall(ball) {
-        if (ball.x > CANVAS_WIDTH || ball.x < 0)
+        if (hitsLeftEdge(ball) || hitsRightEdge(ball))
         {
           xVelocity = xVelocity * -1;
         }
-        else if (ball.y > CANVAS_HEIGHT || ball.y < 0)
+        else if (hitsTopEdge(ball) || hitsBottomEdge(ball))
         {
           yVelocity = yVelocity * -1;
         }
       }
 
+      // Functions to determine edges of objects
+      function hitsTopEdge(object) {
+        if (object.y > 0)
+        {
+          return false;
+        }
+        else
+        {
+          return true;
+        }
+      }
+
+      function hitsBottomEdge(object) {
+        if ((object.y + object.height) >= CANVAS_HEIGHT)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+
+      function hitsLeftEdge(object) {
+        if (object.x > 0)
+        {
+          return false;
+        }
+        else
+        {
+          return true;
+        }
+      }
+      function hitsRightEdge(object) {
+        if ((object.x + object.width) >= CANVAS_WIDTH)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      //User Input Listeners
+
       $(document).keydown( function(e) {
         e.preventDefault();
-        if (e.which == 38) {
+        if (e.which == 38 && !hitsTopEdge(paddle)) {
           paddle.y -= 10;
         }
-        if (e.which == 40) {
+        if (e.which == 40 && !hitsBottomEdge(paddle)) {
           paddle.y += 10;
         }
       })
+
+
+      // GAME LOOP
 
       function update() {
         move(ball);
