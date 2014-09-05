@@ -30,8 +30,7 @@
       // Starting Conditions
 
       var FPS = 30;
-      var xVelocity = 3;
-      var yVelocity = 4;
+      var objects = []
 
       // Game objects
 
@@ -53,6 +52,8 @@
         height: 10,
         x: CANVAS_WIDTH / 2,
         y: CANVAS_HEIGHT / 2,
+        xVelocity: 3,
+        yVelocity: 4,
         draw: function() {
           canvas.fillStyle = this.color;
           canvas.fillRect(this.x, this.y, this.width, this.height);
@@ -62,8 +63,8 @@
       // Functions to manipulate objects
 
       function move(ball) {
-        ball.x += xVelocity;
-        ball.y += yVelocity;
+        ball.x += ball.xVelocity;
+        ball.y += ball.yVelocity;
       }
 
       //Collision functions
@@ -71,12 +72,21 @@
       function collideWithWall(ball) {
         if (hitsLeftEdge(ball) || hitsRightEdge(ball))
         {
-          xVelocity = xVelocity * -1;
+          ball.xVelocity = ball.xVelocity * -1;
         }
         else if (hitsTopEdge(ball) || hitsBottomEdge(ball))
         {
-          yVelocity = yVelocity * -1;
+          ball.yVelocity = ball.yVelocity * -1;
         }
+      }
+
+      function collision(ball, object) {
+        if ( (ball.x <= (object.x + object.width)) && (ball.y >= object.y)
+          && ((ball.y + ball.height) <= (object.y + object.height)) )
+        {
+          ball.xVelocity = ball.xVelocity * -1;
+        }
+
       }
 
       // Functions to determine edges of objects
@@ -109,10 +119,13 @@
 
 
       // GAME LOOP
+      objects.push(paddle);
 
+      console.log(objects)
       function update() {
         move(ball);
         collideWithWall(ball);
+        collision(ball, paddle);
       }
 
       function draw() {
